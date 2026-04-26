@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color: #171717; background: #F8F5EF; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: Inter, system-ui, sans-serif; background: #F8F5EF; }
+::selection { background: #A36A48; color: white; }
+.image-mask { clip-path: inset(0 round 0); }
+.luxury-link { position: relative; }
+.luxury-link::after { content: ''; position: absolute; left: 0; bottom: -4px; height: 1px; width: 100%; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .45s ease; }
+.luxury-link:hover::after { transform: scaleX(1); transform-origin: left; }
