@@ -5,7 +5,7 @@ import SearchBar from '../components/SearchBar'
 import ApartmentCard from '../components/ApartmentCard'
 import Reveal from '../components/Reveal'
 import HomeGallery from '../components/HomeGallery'
-import { apartments, site } from '../data'
+import { apartments, homestayAmenities, site } from '../data'
 import { buildWhatsAppUrl } from '../components/whatsapp'
 import { useAvailability } from '../hooks/useAvailability'
 import { buildSearchPath } from '../utils/searchParams'
@@ -46,6 +46,28 @@ export default function Home() {
           <Reveal delay={.1}>
             <p className="max-w-2xl text-lg leading-9 text-ink/65">Designed for travellers visiting Isha, remote workers, families and guests seeking a practical yet peaceful stay, each room balances simple comfort with access to outdoor spaces, verandahs and shaded terrace areas.</p>
           </Reveal>
+        </div>
+      </section>
+
+      <section className="px-5 pb-28 md:px-10">
+        <div className="mx-auto max-w-7xl">
+          <Reveal className="grid gap-10 md:grid-cols-[.75fr_1.25fr] md:items-end">
+            <div>
+              <p className="text-[11px] uppercase tracking-widestLuxury text-ink/45">Amenities at MS Homestays</p>
+              <h2 className="mt-4 font-serif text-5xl leading-tight md:text-6xl">Thoughtful services for a calm and practical stay.</h2>
+            </div>
+            <p className="max-w-2xl text-base leading-8 text-ink/60">From daily essentials to local transport and simple meal support, these amenities are designed to keep your stay near Adiyogi smooth, flexible and quietly comfortable.</p>
+          </Reveal>
+
+          <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {homestayAmenities.map((item, index) => (
+              <Reveal key={item.title} delay={index * 0.05} className="border border-ink/10 bg-white px-6 py-7 shadow-sm shadow-ink/5">
+                <p className="text-[11px] uppercase tracking-widestLuxury text-ink/40">Service</p>
+                <h3 className="mt-3 font-serif text-3xl leading-tight">{item.title}</h3>
+                <p className="mt-4 text-sm leading-7 text-ink/60">{item.note}</p>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 

@@ -9,6 +9,18 @@ export const site = {
     'Set among coconut groves, garden views and the cool mountain breeze of the Velliangiri foothills, MS Homestays offers calm, self contained rooms and studios for families, yoga seekers, students and remote workers.',
 }
 
+export const homestayAmenities = [
+  { title: 'Free fast Wi-Fi', note: 'Reliable connectivity across the stay for work, calls and quiet evenings online.' },
+  { title: 'Free drinking water', note: 'Clean drinking water available for guests throughout the stay.' },
+  { title: 'Electric scooter rental', note: 'A convenient local mobility option for short trips around the area.' },
+  { title: 'Home cooked pure vegetarian meals', note: 'Fresh house meals can be arranged on request for an extra charge.' },
+  { title: 'Free washing machine', note: 'Useful for longer visits, family stays and yoga travel itineraries.' },
+  { title: 'Yoga practice space', note: 'A calm shared area that guests may use freely for sadhana or stretching.' },
+  { title: '24 hour check-in service', note: 'Flexible arrivals are supported when shared with the host in advance.' },
+  { title: 'Airport pick up', note: 'Transport can be arranged at an extra charge for smoother arrivals.' },
+  { title: 'Airport drop off', note: 'Return transfer support is available at an extra charge when needed.' },
+]
+
 const remoteImages = {
   gfRoom: [
     'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTAwMTM0MTIyNjA3OTMwNjUxMg%3D%3D/original/4a8d4745-3718-45ba-95ef-84949749e2eb.jpeg?im_w=1200',
@@ -56,7 +68,6 @@ export const apartments = [
     type: 'Private room in home',
     images: remoteImages.gfRoom,
     amenities: ['Mountain view', 'Garden view', 'Kitchen', 'Wifi', 'Free parking', 'Self check in', 'Verandah', 'Shared terrace sadhana space', 'Washing machine access'],
-    unavailable: ['2026-05-10', '2026-05-11'],
   },
   {
     slug: 'room-no-2-cozy-room',
@@ -71,7 +82,6 @@ export const apartments = [
     type: 'Room in a home',
     images: remoteImages.room2,
     amenities: ['Mountain view', 'Garden view', 'Wifi', 'Free parking', 'Washing machine', 'Private entry', 'Attached bathroom', 'Verandah', 'Shared garden'],
-    unavailable: ['2026-05-05', '2026-05-06'],
   },
   {
     slug: 'room-no-3-family-studio',
@@ -86,7 +96,6 @@ export const apartments = [
     type: 'Entire home',
     images: remoteImages.room3,
     amenities: ['Air conditioning', 'Kitchen', 'Fridge', 'Stove', 'Wifi', 'Free parking', 'Private entrance', 'Garden view', 'Terrace sadhana space'],
-    unavailable: ['2026-05-14', '2026-05-15'],
   },
   {
     slug: 'room-no-4-family-studio',
@@ -101,7 +110,6 @@ export const apartments = [
     type: 'Entire studio',
     images: remoteImages.room4,
     amenities: ['Air conditioning', 'Kitchen', 'Balcony', 'Wifi', 'Free parking', 'Garden view', 'Mountain breeze', 'Self check in', 'Family friendly'],
-    unavailable: ['2026-05-20', '2026-05-21'],
   },
   {
     slug: 'room-no-5-couples-home',
@@ -116,7 +124,6 @@ export const apartments = [
     type: 'Entire home',
     images: remoteImages.room5,
     amenities: ['Air conditioning', 'Kitchen', 'Reading space', 'Balcony', 'Wifi', 'Free parking', 'Hill view', 'Self check in', 'Peaceful work space'],
-    unavailable: ['2026-05-24', '2026-05-25'],
   },
   {
     slug: 'room-no-7-wfh-room',
@@ -131,6 +138,5 @@ export const apartments = [
     type: 'Private room',
     images: remoteImages.room7,
     amenities: ['Wifi', 'Desk', 'Quiet room', 'Balcony access', 'Garden view', 'Free parking', 'Mountain breeze', 'Shared terrace', 'Short stay friendly'],
-    unavailable: ['2026-05-18', '2026-05-19'],
   },
 ]
