@@ -13,8 +13,9 @@ export default function ApartmentDetail() {
   const { slug } = useParams()
   const navigate = useNavigate()
   const apartment = apartments.find((item) => item.slug === slug)
-  const { filters, setFilters, results, loading, syncedAt, error, hasInvalidDateRange } = useAvailability()
+  const { filters, setFilters, results, loading, syncedAt, error, hasInvalidDateRange, isAvailabilityKnown } = useAvailability()
   const isAvailable = apartment && results.some((item) => item.slug === apartment.slug)
+  const availabilityKnown = apartment ? isAvailabilityKnown(apartment.slug) : true
   const handleSearch = () => navigate(buildSearchPath(filters))
 
   if (!apartment) {
@@ -45,8 +46,8 @@ export default function ApartmentDetail() {
             <SearchBar filters={filters} setFilters={setFilters} compact onSearch={handleSearch} />
             <div className="mt-6 border-t border-ink/10 pt-6 text-sm text-ink/60">
               {hasInvalidDateRange ? 'Please select a check out date after the check in date.' : filters.checkIn && filters.checkOut ? (
-                isAvailable ? 'This room matches your selected dates and guest count.' : 'This room does not match the selected search. Try another date or guest count.'
-              ) : loading ? 'Syncing live Airbnb calendar availability...' : error ? 'Live Airbnb calendar sync is temporarily unavailable. Please confirm directly with the host.' : 'Enter dates to check live Airbnb availability.'}
+                !availabilityKnown ? 'We could not fully verify this room across Airbnb and Google Calendar just now. Please confirm directly with the host.' : isAvailable ? 'This room matches your selected dates and guest count.' : 'This room does not match the selected search. Try another date or guest count.'
+              ) : loading ? 'Syncing live Airbnb and Google Calendar availability...' : error ? 'Live calendar sync is temporarily unavailable. Please confirm directly with the host.' : 'Enter dates to check live Airbnb and Google Calendar availability.'}
             </div>
           </aside>
           <div>
@@ -68,7 +69,7 @@ export default function ApartmentDetail() {
             </Reveal>
             <Reveal delay={.2} className="mt-16 bg-white p-8 md:p-12">
               <h2 className="font-serif text-4xl">Ready to enquire?</h2>
-              <p className="mt-4 max-w-xl text-sm leading-7 text-ink/60">For final availability and pricing, contact the host directly. The calendar checks Airbnb availability every 30 minutes{syncedAt ? ` and was last synced on ${new Date(syncedAt).toLocaleString()}` : ''}.</p>
+              <p className="mt-4 max-w-xl text-sm leading-7 text-ink/60">For final availability and pricing, contact the host directly. The calendar checks Airbnb and Google Calendar availability every 30 minutes{syncedAt ? ` and was last synced on ${new Date(syncedAt).toLocaleString()}` : ''}.</p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <a href={buildWhatsAppUrl({ apartmentName: `${apartment.room} - ${apartment.title}`, checkIn: filters.checkIn, checkOut: filters.checkOut, guests: filters.guests })} target="_blank" rel="noreferrer" className="bg-ink px-7 py-4 text-[11px] uppercase tracking-widestLuxury text-white hover:bg-clay">WhatsApp host</a>
                 <a href={apartment.sourceUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-ink/20 px-7 py-4 text-[11px] uppercase tracking-widestLuxury hover:border-ink">View Airbnb <ExternalLink size={13} /></a>

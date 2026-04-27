@@ -76,9 +76,10 @@ export function useAvailability(initial = {}) {
       const requestedGuests = Math.max(1, Number(filters.guests || 1))
       const canHostGuests = requestedGuests <= Number(apartment.guests || 1)
       const liveRecord = calendarData.apartments?.[apartment.slug]
+      const availabilityKnown = typeof liveRecord?.availabilityKnown === 'boolean' ? liveRecord.availabilityKnown : true
       const blockedDates = Array.isArray(liveRecord?.blockedDates) ? liveRecord.blockedDates : apartment.unavailable || []
       const isAvailable = requestedDates.every((date) => !blockedDates.includes(date))
-      return canHostGuests && isAvailable
+      return canHostGuests && availabilityKnown && isAvailable
     })
   }, [filters, calendarData, hasInvalidDateRange])
 
@@ -88,5 +89,13 @@ export function useAvailability(initial = {}) {
     return Array.isArray(liveRecord?.blockedDates) ? liveRecord.blockedDates : apartment?.unavailable || []
   }
 
-  return { filters, setFilters, results, loading, error, syncedAt: calendarData.syncedAt, calendarErrors: calendarData.errors, getBlockedDates, hasActiveSearch, hasInvalidDateRange }
+  const isAvailabilityKnown = (slug) => {
+    const liveRecord = calendarData.apartments?.[slug]
+    if (typeof liveRecord?.availabilityKnown === 'boolean') {
+      return liveRecord.availabilityKnown
+    }
+    return true
+  }
+
+  return { filters, setFilters, results, loading, error, syncedAt: calendarData.syncedAt, calendarErrors: calendarData.errors, getBlockedDates, isAvailabilityKnown, hasActiveSearch, hasInvalidDateRange }
 }

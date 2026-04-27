@@ -59,7 +59,7 @@ export default function Home() {
             </div>
             <p className="max-w-md text-sm leading-7 text-ink/55">
               {hasInvalidDateRange ? 'Please select a check out date after the check in date.' : `Showing ${displayApartments.length} available option${displayApartments.length === 1 ? '' : 's'} based on your current search.`}
-              {loading ? ' Syncing live Airbnb calendars...' : syncedAt ? ` Last calendar sync: ${new Date(syncedAt).toLocaleString()}` : ''}
+              {loading ? ' Syncing Airbnb and Google calendars...' : syncedAt ? ` Last calendar sync: ${new Date(syncedAt).toLocaleString()}` : ''}
             </p>
           </div>
           <div className="grid gap-x-10 gap-y-20 md:grid-cols-2">

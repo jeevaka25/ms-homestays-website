@@ -27,8 +27,8 @@ export default function SearchResults() {
   const statusText = (() => {
     if (hasInvalidDateRange) return 'Please select a check out date after the check in date.'
     if (!hasCompleteDateSearch) return 'Please select both a check in and check out date to see available apartments.'
-    if (loading) return 'Checking live Airbnb calendars for your selected dates.'
-    if (error) return 'Live Airbnb calendar sync is temporarily unavailable. Showing the best available local availability data. Please confirm directly on WhatsApp.'
+    if (loading) return 'Checking Airbnb and Google Calendar availability for your selected dates.'
+    if (error) return 'Live calendar sync is temporarily unavailable. Please confirm availability directly on WhatsApp before accepting a booking.'
     if (results.length === 0) return 'No apartments are currently available for the selected dates and guest count.'
     return `Showing ${results.length} available apartment${results.length === 1 ? '' : 's'} for your selected dates.`
   })()
@@ -43,7 +43,7 @@ export default function SearchResults() {
               <p className="text-[11px] uppercase tracking-widestLuxury text-ink/45">Availability search</p>
               <h1 className="mt-4 font-serif text-5xl leading-tight md:text-7xl">Available apartments</h1>
             </div>
-            <p className="text-base leading-8 text-ink/60">Select your dates and number of guests. The website checks the linked Airbnb calendars and only shows apartments that match your search.</p>
+            <p className="text-base leading-8 text-ink/60">Select your dates and number of guests. The website checks the linked Airbnb and Google calendars and only shows apartments that are free across both.</p>
           </Reveal>
 
           <div className="relative z-30 mt-12">
