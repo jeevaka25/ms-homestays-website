@@ -122,7 +122,7 @@ function DatePicker({ label, value, placeholder, minDate, onChange }) {
   )
 }
 
-export default function SearchBar({ filters, setFilters, compact = false, onSearch }) {
+export default function SearchBar({ filters, setFilters, compact = false, onSearch, maxGuests }) {
   const update = (field, value) => setFilters((current) => ({ ...current, [field]: value }))
 
   const handleCheckIn = (value) => {
@@ -134,7 +134,8 @@ export default function SearchBar({ filters, setFilters, compact = false, onSear
   }
 
   const handleGuests = (value) => {
-    const guests = Math.max(1, Number(value || 1))
+    const upperLimit = maxGuests ? Number(maxGuests) : Number.POSITIVE_INFINITY
+    const guests = Math.min(upperLimit, Math.max(1, Number(value || 1)))
     update('guests', guests)
   }
 
@@ -144,7 +145,7 @@ export default function SearchBar({ filters, setFilters, compact = false, onSear
       <DatePicker label="Check out" value={filters.checkOut} placeholder="Select date" minDate={filters.checkIn ? addDays(filters.checkIn, 1) : todayIso()} onChange={(value) => update('checkOut', value)} />
       <label className="block">
         <span className="text-[10px] uppercase tracking-widestLuxury text-ink/45">Guests</span>
-        <input min="1" type="number" value={filters.guests} onChange={(e) => handleGuests(e.target.value)} className="mt-2 w-full bg-transparent text-sm outline-none" />
+        <input min="1" max={maxGuests} type="number" value={filters.guests} onChange={(e) => handleGuests(e.target.value)} className="mt-2 w-full bg-transparent text-sm outline-none" />
       </label>
       <button type="button" onClick={onSearch} className="flex items-center justify-center gap-2 bg-ink px-8 py-4 text-[11px] uppercase tracking-widestLuxury text-white transition hover:bg-clay">
         <Search size={16} strokeWidth={1.5} /> Search

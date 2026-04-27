@@ -1,7 +1,5 @@
 import { whatsappNumber } from '../data'
 
-const missing = 'to be confirmed'
-
 export function buildWhatsAppMessage({ apartmentName, checkIn, checkOut, guests } = {}) {
   const lines = ['Hello, I would like to enquire about availability at MS Homestays.']
 
@@ -9,9 +7,9 @@ export function buildWhatsAppMessage({ apartmentName, checkIn, checkOut, guests 
     lines.push(`Apartment: ${apartmentName}`)
   }
 
-  lines.push(`Check in: ${checkIn || missing}`)
-  lines.push(`Check out: ${checkOut || missing}`)
-  lines.push(`Guests: ${guests || missing}`)
+  lines.push(`Check in: ${checkIn || ''}`)
+  lines.push(`Check out: ${checkOut || ''}`)
+  lines.push(`Guests: ${guests || ''}`)
 
   return lines.join('\n')
 }

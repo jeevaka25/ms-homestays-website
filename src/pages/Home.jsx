@@ -14,13 +14,14 @@ export default function Home() {
   const navigate = useNavigate()
   const { filters, setFilters, results, loading, syncedAt, hasActiveSearch, hasInvalidDateRange } = useAvailability()
   const displayApartments = hasActiveSearch ? results : apartments
+  const whatsappContext = hasActiveSearch ? { checkIn: filters.checkIn, checkOut: filters.checkOut, guests: filters.guests } : {}
 
   const handleSearch = () => {
     navigate(buildSearchPath(filters))
   }
 
   return (
-    <Layout whatsappContext={{ checkIn: filters.checkIn, checkOut: filters.checkOut, guests: filters.guests }}>
+    <Layout whatsappContext={whatsappContext}>
       <section className="relative z-10 min-h-screen overflow-visible pt-24">
         <div className="absolute inset-0">
           <img src="/images/hero-coconut-grove.jpeg" alt="Coconut grove view at MS Homestays" className="h-full w-full object-cover" loading="eager" />
@@ -31,7 +32,7 @@ export default function Home() {
           <motion.h1 initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: .1 }} className="mt-5 max-w-4xl font-serif text-6xl font-normal leading-[.96] text-white md:text-8xl">{site.strapline}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: .25 }} className="mt-8 max-w-2xl text-base leading-8 text-white/82">{site.intro}</motion.p>
           <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: .4 }} className="relative z-30 mt-10 max-w-5xl">
-            <SearchBar filters={filters} setFilters={setFilters} onSearch={handleSearch} />
+            <SearchBar filters={filters} setFilters={setFilters} onSearch={handleSearch} maxGuests={4} />
           </motion.div>
         </div>
       </section>
@@ -82,7 +83,7 @@ export default function Home() {
             <p className="mt-6 max-w-xl text-base leading-8 text-ink/60">Share your dates, guest count and stay preference. The host can confirm the most suitable room and any additional services, including meals or scooter rental where available.</p>
           </Reveal>
           <Reveal delay={.1} className="bg-linen p-8 md:p-12">
-            <a href={buildWhatsAppUrl({ checkIn: filters.checkIn, checkOut: filters.checkOut, guests: filters.guests })} target="_blank" rel="noreferrer" className="inline-flex bg-ink px-8 py-4 text-[11px] uppercase tracking-widestLuxury text-white transition hover:bg-clay">Enquire on WhatsApp</a>
+            <a href={buildWhatsAppUrl(whatsappContext)} target="_blank" rel="noreferrer" className="inline-flex bg-ink px-8 py-4 text-[11px] uppercase tracking-widestLuxury text-white transition hover:bg-clay">Enquire on WhatsApp</a>
           </Reveal>
         </div>
       </section>

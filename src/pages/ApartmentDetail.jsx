@@ -1,29 +1,34 @@
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { ArrowLeft, ExternalLink } from 'lucide-react'
 import Layout from '../components/Layout'
 import Gallery from '../components/Gallery'
-import SearchBar from '../components/SearchBar'
 import Reveal from '../components/Reveal'
 import { apartments } from '../data'
 import { buildWhatsAppUrl } from '../components/whatsapp'
 import { useAvailability } from '../hooks/useAvailability'
-import { buildSearchPath } from '../utils/searchParams'
+import { readSearchFilters } from '../utils/searchParams'
 
 export default function ApartmentDetail() {
   const { slug } = useParams()
-  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const apartment = apartments.find((item) => item.slug === slug)
-  const { filters, setFilters, results, loading, syncedAt, error, hasInvalidDateRange, isAvailabilityKnown } = useAvailability()
+  const urlFilters = readSearchFilters(searchParams)
+  const { filters, results, loading, syncedAt, error, hasInvalidDateRange, isAvailabilityKnown } = useAvailability(urlFilters)
   const isAvailable = apartment && results.some((item) => item.slug === apartment.slug)
   const availabilityKnown = apartment ? isAvailabilityKnown(apartment.slug) : true
-  const handleSearch = () => navigate(buildSearchPath(filters))
+  const returnPath = filters.checkIn && filters.checkOut ? `/search?${searchParams.toString()}` : '/'
+  const hasSearchContext = Boolean(filters.checkIn || filters.checkOut || Number(filters.guests) > 1)
+  const whatsappContext = {
+    apartmentName: `${apartment?.room} - ${apartment?.title}`,
+    ...(hasSearchContext ? { checkIn: filters.checkIn, checkOut: filters.checkOut, guests: filters.guests } : {}),
+  }
 
   if (!apartment) {
     return null
   }
 
   return (
-    <Layout whatsappContext={{ apartmentName: `${apartment.room} - ${apartment.title}`, checkIn: filters.checkIn, checkOut: filters.checkOut, guests: filters.guests }}>
+    <Layout whatsappContext={whatsappContext}>
       <section className="px-5 pb-16 pt-32 md:px-10">
         <div className="mx-auto max-w-7xl">
           <Link to="/" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-widestLuxury text-ink/55 hover:text-ink"><ArrowLeft size={14} /> Back to all stays</Link>
@@ -43,12 +48,15 @@ export default function ApartmentDetail() {
       <section className="px-5 py-12 md:px-10">
         <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[.75fr_1.25fr]">
           <aside className="h-fit bg-white p-6 shadow-xl shadow-ink/5 md:sticky md:top-28">
-            <SearchBar filters={filters} setFilters={setFilters} compact onSearch={handleSearch} />
-            <div className="mt-6 border-t border-ink/10 pt-6 text-sm text-ink/60">
+            <p className="text-[10px] uppercase tracking-widestLuxury text-ink/45">Availability note</p>
+            <div className="mt-4 text-sm text-ink/60">
               {hasInvalidDateRange ? 'Please select a check out date after the check in date.' : filters.checkIn && filters.checkOut ? (
                 !availabilityKnown ? 'We could not fully verify this room across Airbnb and Google Calendar just now. Please confirm directly with the host.' : isAvailable ? 'This room matches your selected dates and guest count.' : 'This room does not match the selected search. Try another date or guest count.'
-              ) : loading ? 'Syncing live Airbnb and Google Calendar availability...' : error ? 'Live calendar sync is temporarily unavailable. Please confirm directly with the host.' : 'Enter dates to check live Airbnb and Google Calendar availability.'}
+              ) : loading ? 'Syncing live Airbnb and Google Calendar availability...' : error ? 'Live calendar sync is temporarily unavailable. Please confirm directly with the host.' : 'Use the home page search to check dates and guest count before opening room details.'}
             </div>
+            <Link to={returnPath} className="mt-6 inline-block text-[11px] uppercase tracking-widestLuxury text-ink/50 hover:text-ink">
+              {filters.checkIn && filters.checkOut ? 'Back to search results' : 'Back to home search'}
+            </Link>
           </aside>
           <div>
             <Reveal>
@@ -71,7 +79,7 @@ export default function ApartmentDetail() {
               <h2 className="font-serif text-4xl">Ready to enquire?</h2>
               <p className="mt-4 max-w-xl text-sm leading-7 text-ink/60">For final availability and pricing, contact the host directly. The calendar checks Airbnb and Google Calendar availability every 30 minutes{syncedAt ? ` and was last synced on ${new Date(syncedAt).toLocaleString()}` : ''}.</p>
               <div className="mt-8 flex flex-wrap gap-4">
-                <a href={buildWhatsAppUrl({ apartmentName: `${apartment.room} - ${apartment.title}`, checkIn: filters.checkIn, checkOut: filters.checkOut, guests: filters.guests })} target="_blank" rel="noreferrer" className="bg-ink px-7 py-4 text-[11px] uppercase tracking-widestLuxury text-white hover:bg-clay">WhatsApp host</a>
+                <a href={buildWhatsAppUrl(whatsappContext)} target="_blank" rel="noreferrer" className="bg-ink px-7 py-4 text-[11px] uppercase tracking-widestLuxury text-white hover:bg-clay">WhatsApp host</a>
                 <a href={apartment.sourceUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-ink/20 px-7 py-4 text-[11px] uppercase tracking-widestLuxury hover:border-ink">View Airbnb <ExternalLink size={13} /></a>
               </div>
             </Reveal>

@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
 import Reveal from './Reveal'
 
-export default function ApartmentCard({ apartment, index = 0 }) {
+export default function ApartmentCard({ apartment, index = 0, search = '' }) {
   return (
     <Reveal delay={index * 0.08}>
-      <Link to={`/apartments/${apartment.slug}`} className="group block">
+      <Link to={`/apartments/${apartment.slug}${search}`} className="group block">
         <div className="h-[420px] overflow-hidden bg-mist">
           <img src={apartment.images[0]} alt={apartment.title} loading="lazy" className="h-full w-full object-cover transition duration-[1400ms] ease-out group-hover:scale-105" />
         </div>
