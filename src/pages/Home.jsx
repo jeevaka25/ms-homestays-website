@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import { Bike, Clock3, Droplets, PlaneLanding, PlaneTakeoff, Shirt, Utensils, Waves, Wifi, Zap } from 'lucide-react'
 import Layout from '../components/Layout'
 import SearchBar from '../components/SearchBar'
 import ApartmentCard from '../components/ApartmentCard'
@@ -9,6 +10,18 @@ import { apartments, homestayAmenities, site } from '../data'
 import { buildWhatsAppUrl } from '../components/whatsapp'
 import { useAvailability } from '../hooks/useAvailability'
 import { buildSearchPath } from '../utils/searchParams'
+
+const amenityIcons = {
+  'Free fast Wi-Fi': Wifi,
+  'Free drinking water': Droplets,
+  'Electric scooter rental': Bike,
+  'Home cooked pure vegetarian meals': Utensils,
+  'Free washing machine': Shirt,
+  'Yoga practice space': Waves,
+  '24 hour check-in service': Clock3,
+  'Airport pick up': PlaneLanding,
+  'Airport drop off': PlaneTakeoff,
+}
 
 export default function Home() {
   const navigate = useNavigate()
@@ -38,18 +51,6 @@ export default function Home() {
       </section>
 
       <section className="px-5 py-28 md:px-10">
-        <div className="mx-auto grid max-w-7xl gap-14 md:grid-cols-[.8fr_1.2fr] md:items-end">
-          <Reveal>
-            <p className="text-[11px] uppercase tracking-widestLuxury text-ink/45">The stay</p>
-            <h2 className="mt-4 font-serif text-5xl leading-tight md:text-6xl">Quiet rooms, garden air and a slower rhythm.</h2>
-          </Reveal>
-          <Reveal delay={.1}>
-            <p className="max-w-2xl text-lg leading-9 text-ink/65">Designed for travellers visiting Isha, remote workers, families and guests seeking a practical yet peaceful stay, each room balances simple comfort with access to outdoor spaces, verandahs and shaded terrace areas.</p>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="px-5 pb-28 md:px-10">
         <div className="mx-auto max-w-7xl">
           <Reveal className="grid gap-10 md:grid-cols-[.75fr_1.25fr] md:items-end">
             <div>
@@ -62,7 +63,12 @@ export default function Home() {
           <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {homestayAmenities.map((item, index) => (
               <Reveal key={item.title} delay={index * 0.05} className="border border-ink/10 bg-white px-6 py-7 shadow-sm shadow-ink/5">
-                <p className="text-[11px] uppercase tracking-widestLuxury text-ink/40">Service</p>
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-linen text-ink/65">
+                  {(() => {
+                    const Icon = amenityIcons[item.title] || Zap
+                    return <Icon size={18} strokeWidth={1.6} />
+                  })()}
+                </div>
                 <h3 className="mt-3 font-serif text-3xl leading-tight">{item.title}</h3>
                 <p className="mt-4 text-sm leading-7 text-ink/60">{item.note}</p>
               </Reveal>
