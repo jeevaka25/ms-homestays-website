@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { Bike, Clock3, Droplets, PlaneLanding, PlaneTakeoff, Shirt, Utensils, Waves, Wifi, Zap } from 'lucide-react'
+import { Bike, Clock3, Droplets, Plane, Shirt, Utensils, Waves, Wifi, Zap } from 'lucide-react'
 import Layout from '../components/Layout'
 import SearchBar from '../components/SearchBar'
 import ApartmentCard from '../components/ApartmentCard'
@@ -19,8 +19,7 @@ const amenityIcons = {
   'Free washing machine': Shirt,
   'Yoga practice space': Waves,
   '24 hour check-in service': Clock3,
-  'Airport pick up': PlaneLanding,
-  'Airport drop off': PlaneTakeoff,
+  'Airport transfers': Plane,
 }
 
 export default function Home() {
@@ -38,12 +37,14 @@ export default function Home() {
       <section className="relative z-10 min-h-screen overflow-visible pt-24">
         <div className="absolute inset-0">
           <img src="/images/hero-coconut-grove.jpeg" alt="Coconut grove view at MS Homestays" className="h-full w-full object-cover" loading="eager" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-linen" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/22 to-linen md:from-black/35 md:via-black/10" />
         </div>
         <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col justify-end px-5 pb-16 md:px-10">
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="text-[11px] uppercase tracking-widestLuxury text-white/80">{site.location}</motion.p>
-          <motion.h1 initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: .1 }} className="mt-5 max-w-4xl font-serif text-6xl font-normal leading-[.96] text-white md:text-8xl">{site.strapline}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: .25 }} className="mt-8 max-w-2xl text-base leading-8 text-white/82">{site.intro}</motion.p>
+          <div className="max-w-4xl rounded-[1.75rem] bg-black/18 px-4 py-5 backdrop-blur-[2px] md:rounded-none md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-0">
+            <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="text-[11px] uppercase tracking-widestLuxury text-white/82">{site.location}</motion.p>
+            <motion.h1 initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: .1 }} className="mt-5 max-w-4xl font-serif text-5xl font-normal leading-[.96] text-white sm:text-6xl md:text-8xl">{site.strapline}</motion.h1>
+            <motion.p initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: .25 }} className="mt-6 max-w-2xl text-sm leading-7 text-white/92 sm:text-base sm:leading-8 md:mt-8 md:text-base md:leading-8 md:text-white/82">{site.intro}</motion.p>
+          </div>
           <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2, delay: .4 }} className="relative z-30 mt-10 max-w-5xl">
             <SearchBar filters={filters} setFilters={setFilters} onSearch={handleSearch} maxGuests={4} />
           </motion.div>
@@ -60,17 +61,29 @@ export default function Home() {
             <p className="max-w-2xl text-base leading-8 text-ink/60">From daily essentials to local transport and simple meal support, these amenities are designed to keep your stay near Adiyogi smooth, flexible and quietly comfortable.</p>
           </Reveal>
 
-          <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-12">
             {homestayAmenities.map((item, index) => (
-              <Reveal key={item.title} delay={index * 0.05} className="border border-ink/10 bg-white px-6 py-7 shadow-sm shadow-ink/5">
+              <Reveal
+                key={item.title}
+                delay={index * 0.05}
+                className={`border border-ink/10 bg-white px-6 py-7 shadow-sm shadow-ink/5 ${
+                  index === 0
+                    ? 'xl:col-span-5 xl:row-span-2 xl:px-8 xl:py-9'
+                    : index === 3
+                      ? 'xl:col-span-4 xl:px-8'
+                      : index === 6
+                        ? 'xl:col-span-4 xl:px-8'
+                        : 'xl:col-span-3'
+                }`}
+              >
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-linen text-ink/65">
                   {(() => {
                     const Icon = amenityIcons[item.title] || Zap
                     return <Icon size={18} strokeWidth={1.6} />
                   })()}
                 </div>
-                <h3 className="mt-3 font-serif text-3xl leading-tight">{item.title}</h3>
-                <p className="mt-4 text-sm leading-7 text-ink/60">{item.note}</p>
+                <h3 className={`mt-3 font-serif leading-tight ${index === 0 ? 'text-4xl md:text-5xl' : 'text-3xl'}`}>{item.title}</h3>
+                <p className={`mt-4 text-ink/60 ${index === 0 ? 'max-w-md text-base leading-8' : 'text-sm leading-7'}`}>{item.note}</p>
               </Reveal>
             ))}
           </div>

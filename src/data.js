@@ -17,8 +17,7 @@ export const homestayAmenities = [
   { title: 'Free washing machine', note: 'Useful for longer visits, family stays and yoga travel itineraries.' },
   { title: 'Yoga practice space', note: 'A calm shared area that guests may use freely for sadhana or stretching.' },
   { title: '24 hour check-in service', note: 'Flexible arrivals are supported when shared with the host in advance.' },
-  { title: 'Airport pick up', note: 'Transport can be arranged at an extra charge for smoother arrivals.' },
-  { title: 'Airport drop off', note: 'Return transfer support is available at an extra charge when needed.' },
+  { title: 'Airport transfers', note: 'Airport pick up and drop off can both be arranged at an extra charge when needed.' },
 ]
 
 const remoteImages = {
